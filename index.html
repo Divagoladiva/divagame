@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Test Firebase Firestore</title>
-  <!-- CDN modulaire pour Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <style>
@@ -17,15 +16,13 @@
   
   <h2 id="result">Résultat :</h2>
 
-  <!-- Zone de texte pour saisir du texte -->
   <textarea id="textInput" rows="4" cols="50" placeholder="Écrivez ici..."></textarea><br>
   <button onclick="updateText()">Mettre à jour le texte</button>
 
-  <!-- Affichage du texte en temps réel -->
   <h2>Texte affiché : <span id="displayText">Texte vide</span></h2>
 
   <script>
-    // Configuration Firebase (remplace avec tes informations)
+    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAUx46EkX-lYTtMpT5CYcLCpOb5CEbQ2ts",
       authDomain: "divagame-a1457.firebaseapp.com",
@@ -40,28 +37,13 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Fonction pour tester la connexion
-    function testConnection() {
-      const gameCode = document.getElementById("gameCode").value;
-
-      db.collection("game").where("code", "==", gameCode).get()
-        .then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            document.getElementById("result").innerText = "Connexion réussie : Code valide trouvé dans Firestore.";
-            listenForTextUpdates(); // Écoute les mises à jour de texte
-          } else {
-            document.getElementById("result").innerText = "Code non trouvé dans Firestore.";
-          }
-        })
-        .catch((error) => {
-          document.getElementById("result").innerText = "Erreur de connexion à Firestore.";
-          console.error("Erreur lors de la connexion :", error);
-        });
-    }
+    // Écouter les mises à jour de texte en temps réel dès le chargement de la page
+    listenForTextUpdates();
 
     // Fonction pour mettre à jour le texte
     function updateText() {
       const textInput = document.getElementById("textInput").value;
+      console.log("Texte à mettre à jour :", textInput); // Pour déboguer
 
       db.collection("sharedText").doc("currentText").set({ text: textInput })
         .then(() => {
@@ -72,14 +54,14 @@
         });
     }
 
-    // Écouter les mises à jour de texte en temps réel
+    // Écouter les mises à jour de texte
     function listenForTextUpdates() {
       db.collection("sharedText").doc("currentText").onSnapshot((doc) => {
-      if (doc.exists) {
-        const data = doc.data();
-        console.log("Texte reçu de Firestore :", data.text); // Pour déboguer
-        document.getElementById("displayText").innerText = data.text || "Texte vide";
-      } else {
+        if (doc.exists) {
+          const data = doc.data();
+          console.log("Texte reçu de Firestore :", data.text); // Pour déboguer
+          document.getElementById("displayText").innerText = data.text || "Texte vide";
+        } else {
           console.log("Aucun document trouvé !");
         }
       });
@@ -87,3 +69,4 @@
   </script>
 </body>
 </html>
+
