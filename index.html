@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Jeu en Temps Réel</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+    input, button { font-size: 18px; padding: 10px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Rejoindre une Partie</h1>
+  <input type="text" id="gameCode" placeholder="Entrez le code de la partie">
+  <button onclick="joinGame()">Rejoindre</button>
+
+  <h2 id="gameStatus"></h2>
+
+  <script>
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAUx46EkX-lYTtMpT5CYcLCpOb5CEbQ2ts",
+      authDomain: "divagame-a1457.firebaseapp.com",
+      databaseURL: "https://divagame-a1457-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "divagame-a1457",
+      storageBucket: "divagame-a1457.appspot.com",
+      messagingSenderId: "747394405988",
+      appId: "1:747394405988:web:f9eaaef4f0973f557d7171"
+
+    };
+
+    // Initialiser Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
+
+    // Fonction pour rejoindre la partie avec un code
+    function joinGame() {
+      const gameCode = document.getElementById("gameCode").value;
+
+      db.collection("games").where("code", "==", gameCode).get().then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          // Partie trouvée
+          document.getElementById("gameStatus").innerText = "Partie rejointe avec succès!";
+        } else {
+          // Partie non trouvée
+          document.getElementById("gameStatus").innerText = "Code incorrect ou partie introuvable.";
+        }
+      }).catch((error) => {
+        console.error("Erreur lors de la connexion:", error);
+      });
+    }
+  </script>
+</body>
+</html>
