@@ -2,53 +2,54 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Jeu en Temps Réel</title>
+  <title>Test Firebase Firestore</title>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
     input, button { font-size: 18px; padding: 10px; margin-top: 10px; }
+    h2 { color: #333; }
   </style>
 </head>
 <body>
-  <h1>Rejoindre une Partie</h1>
-  <input type="text" id="gameCode" placeholder="Entrez le code de la partie">
-  <button onclick="joinGame()">Rejoindre</button>
+  <h1>Test de Connexion Firestore</h1>
+  <input type="text" id="gameCode" placeholder="Entrez le code de test">
+  <button onclick="testConnection()">Tester la Connexion</button>
 
-  <h2 id="gameStatus"></h2>
+  <h2 id="result">Résultat :</h2>
 
   <script>
-    // Configuration Firebase
+    // Configuration Firebase (remplace avec les valeurs de ton projet)
     const firebaseConfig = {
       apiKey: "AIzaSyAUx46EkX-lYTtMpT5CYcLCpOb5CEbQ2ts",
       authDomain: "divagame-a1457.firebaseapp.com",
       databaseURL: "https://divagame-a1457-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "divagame-a1457",
-      storageBucket: "divagame-a1457.appspot.com",
+      storageBucket: "divagame-a1457",
       messagingSenderId: "747394405988",
       appId: "1:747394405988:web:f9eaaef4f0973f557d7171"
     };
-
 
     // Initialiser Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore(app);
 
-    // Fonction pour rejoindre la partie avec un code
-    function joinGame() {
+    // Fonction pour tester la connexion
+    function testConnection() {
       const gameCode = document.getElementById("gameCode").value;
 
-      db.collection("games").where("code", "==", gameCode).get().then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          // Partie trouvée
-          document.getElementById("gameStatus").innerText = "Partie rejointe avec succès!";
-        } else {
-          // Partie non trouvée
-          document.getElementById("gameStatus").innerText = "Code incorrect ou partie introuvable.";
-        }
-      }).catch((error) => {
-        console.error("Erreur lors de la connexion:", error);
-      });
+      db.collection("games").where("code", "==", gameCode).get()
+        .then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            document.getElementById("result").innerText = "Connexion réussie : Code valide trouvé dans Firestore.";
+          } else {
+            document.getElementById("result").innerText = "Code non trouvé dans Firestore.";
+          }
+        })
+        .catch((error) => {
+          document.getElementById("result").innerText = "Erreur de connexion à Firestore.";
+          console.error("Erreur lors de la connexion :", error);
+        });
     }
   </script>
 </body>
