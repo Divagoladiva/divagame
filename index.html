@@ -44,7 +44,7 @@
     function testConnection() {
       const gameCode = document.getElementById("gameCode").value;
 
-      db.collection("games").where("code", "==", gameCode).get()
+      db.collection("game").where("code", "==", gameCode).get()
         .then((querySnapshot) => {
           if (!querySnapshot.empty) {
             document.getElementById("result").innerText = "Connexion réussie : Code valide trouvé dans Firestore.";
