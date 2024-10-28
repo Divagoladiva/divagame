@@ -19,27 +19,28 @@
   <h2 id="result">Résultat :</h2>
 
   <script>
-    // Configuration Firebase (remplace avec les valeurs de ton projet)
+    // Configuration Firebase (remplace avec tes informations)
     const firebaseConfig = {
       apiKey: "AIzaSyAUx46EkX-lYTtMpT5CYcLCpOb5CEbQ2ts",
-      authDomain: "divagame-a1457.firebaseapp.com",
-      databaseURL: "https://divagame-a1457-default-rtdb.europe-west1.firebasedatabase.app",
+      authDomain: "divagame-a1457.firebaseapp.com", 
       projectId: "divagame-a1457",
-      storageBucket: "divagame-a1457",
+      storageBucket: "divagame-a1457.appspot.com",
       messagingSenderId: "747394405988",
       appId: "1:747394405988:web:f9eaaef4f0973f557d7171"
     };
 
-    // Initialiser Firebase
+    // Initialiser Firebase et Firestore
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore(app);
 
     // Fonction pour tester la connexion
     function testConnection() {
+      console.log("Fonction testConnection appelée");
       const gameCode = document.getElementById("gameCode").value;
 
       db.collection("games").where("code", "==", gameCode).get()
         .then((querySnapshot) => {
+          console.log("Connexion réussie à Firestore");
           if (!querySnapshot.empty) {
             document.getElementById("result").innerText = "Connexion réussie : Code valide trouvé dans Firestore.";
           } else {
