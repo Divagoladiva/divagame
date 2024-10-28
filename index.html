@@ -75,10 +75,11 @@
     // Écouter les mises à jour de texte en temps réel
     function listenForTextUpdates() {
       db.collection("sharedText").doc("currentText").onSnapshot((doc) => {
-        if (doc.exists) {
-          const data = doc.data();
-          document.getElementById("displayText").innerText = data.text || "Texte vide";
-        } else {
+      if (doc.exists) {
+        const data = doc.data();
+        console.log("Texte reçu de Firestore :", data.text); // Pour déboguer
+        document.getElementById("displayText").innerText = data.text || "Texte vide";
+      } else {
           console.log("Aucun document trouvé !");
         }
       });
