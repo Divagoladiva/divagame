@@ -40,7 +40,7 @@
       console.log("Fonction testConnection appelée");
       const gameCode = document.getElementById("gameCode").value;
 
-      db.collection("games").where("code", "==", gameCode).get()
+      db.collection("game").where("code", "==", gameCode).get()
         .then((querySnapshot) => {
           console.log("Connexion réussie à Firestore");
           if (!querySnapshot.empty) {
