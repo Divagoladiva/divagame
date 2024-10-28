@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Test Firebase Firestore</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <!-- CDN modulaire pour Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
     input, button { font-size: 18px; padding: 10px; margin-top: 10px; }
@@ -22,7 +23,8 @@
     // Configuration Firebase (remplace avec tes informations)
     const firebaseConfig = {
       apiKey: "AIzaSyAUx46EkX-lYTtMpT5CYcLCpOb5CEbQ2ts",
-      authDomain: "divagame-a1457.firebaseapp.com", 
+      authDomain: "divagame-a1457.firebaseapp.com",
+      databaseURL: "https://divagame-a1457-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "divagame-a1457",
       storageBucket: "divagame-a1457.appspot.com",
       messagingSenderId: "747394405988",
@@ -30,8 +32,8 @@
     };
 
     // Initialiser Firebase et Firestore
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore(app);
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
     // Fonction pour tester la connexion
     function testConnection() {
